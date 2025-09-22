@@ -34,7 +34,7 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     const select = document.getElementById('zonesSelect');
-    const zoneName = document.getElementById('sectorName');
+    const zoneName = document.getElementById('zoneName');
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -58,7 +58,6 @@
       if (!e.target.value) return;
 
       const zone = JSON.parse(e.target.value);
-      const sector = { title: zone.title };
       zoneName.textContent = zone.title;
       areaInfo.style.display = "block";
 
