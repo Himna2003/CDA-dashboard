@@ -17,20 +17,21 @@
   </div>
 
   <div class="main">
-  <div class="zones-select-container">
-    <label for="zonesSelect">Select zones:</label>
-    <select id="zonesSelect">
-      <option value="">-- Select --</option>
-    </select>
+    <div class="sector-select-container">
+      <label for="sectorSelect">Select Zone:</label>
+      <select id="zonesSelect">
+        <option value="">-- Select --</option>
+      </select>
+    </div>
+
+    <div id="areaInfo" style="display:none;">
+      <p><strong>Name:</strong> <span id="sectorName"></span></p>
+    </div>
+
+    <div id="map"></div>
   </div>
 
-  <div id="areaInfo">
-    <p><strong>Name:</strong> <span id="zoneName"></span></p>
-  </div>
-  <div id="map"></div>
-</div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     const select = document.getElementById('sectorSelect');
     const sectorName = document.getElementById('sectorName');
