@@ -18,7 +18,7 @@
 
   <div class="main">
     <div class="zone-select-container">
-      <label for="sectorSelect">Select Zone:</label>
+      <label for="zonesSelect">Select Zone:</label>
       <select id="zonesSelect">
         <option value="">-- Select --</option>
       </select>
@@ -33,8 +33,8 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const select = document.getElementById('sectorSelect');
-    const sectorName = document.getElementById('sectorName');
+    const select = document.getElementById('zonesSelect');
+    const zoneName = document.getElementById('sectorName');
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -57,9 +57,9 @@
     select.addEventListener("change", (e) => {
       if (!e.target.value) return;
 
-      const sector = JSON.parse(e.target.value);
-
-      sectorName.textContent = sector.title;
+      const zone = JSON.parse(e.target.value);
+      const sector = { title: zone.title };
+      zoneName.textContent = zone.title;
       areaInfo.style.display = "block";
 
       if (marker) map.removeLayer(marker);
