@@ -1,0 +1,122 @@
+     * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #f4f6f8;
+    }
+
+    .sidebar {
+      width: 220px;
+      color: #fff;
+      background-color: darkgreen;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      font-size: 22px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      margin-bottom: 15px;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+        #map {
+        height: 400px;
+        width: 100%;
+        margin-top: 20px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        }
+
+        #areaInfo {
+        margin-top: 15px;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 320px;
+        display: none;
+        }
+    .main {
+    flex: 1;
+    padding: 20px;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    }
+
+    .markaz-select-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
+    }
+
+    #markazSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 200px; 
+    }
+
+     .sector-select-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
+    }
+
+    #sectorSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 200px; 
+    }
+
+
+     .zones-select-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
+    }
+
+    #zonesSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 200px; 
+    }
+
+     .zones-select-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
+    }
+
+    #zonesSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 200px; 
+    }
