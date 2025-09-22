@@ -17,7 +17,7 @@
   </div>
 
   <div class="main">
-    <div class="sector-select-container">
+    <div class="zone-select-container">
       <label for="sectorSelect">Select Zone:</label>
       <select id="zonesSelect">
         <option value="">-- Select --</option>
