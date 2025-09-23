@@ -25,16 +25,18 @@
     </div>
 
     <div id="areaInfo" style="display:none;">
-      <p><strong>Name:</strong> <span id="sectorName"></span></p>
+      <p><strong>Name:</strong> <span id="zoneName"></span></p>
+      <p><strong>Location:</strong> <span id="zoneLocation"></span></p>
     </div>
 
-    <div id="map"></div>
+    <div id="map" style="height:500px;"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     const select = document.getElementById('zonesSelect');
     const zoneName = document.getElementById('zoneName');
+    const zoneLocation = document.getElementById('zoneLocation');
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -43,6 +45,7 @@
       maxZoom: 18
     }).addTo(map);
 
+    // Load data from PHP
     fetch("get_zone.php")
       .then(res => res.json())
       .then(data => {
@@ -54,23 +57,26 @@
         });
       });
 
-    select.addEventListener("change", (e) => {
-      if (!e.target.value) return;
+    select.addEventListener('change', () => {
+      if (!select.value) {
+        areaInfo.style.display = 'none';
+        if (marker) map.removeLayer(marker);
+        return;
+      }
 
-      const zone = JSON.parse(e.target.value);
+      const zone = JSON.parse(select.value);  
+
       zoneName.textContent = zone.title;
-      areaInfo.style.display = "block";
+      zoneLocation.textContent = `${zone.latitude || "N/A"}, ${zone.longitude || "N/A"}`;
+      areaInfo.style.display = 'block';
+
+      const lat = parseFloat(zone.latitude) || 33.6844;  
+      const lon = parseFloat(zone.longitude) || 73.0479;
 
       if (marker) map.removeLayer(marker);
-
-      
-      let lat = 33.6844;  
-      let lng = 73.0479;
-
-      marker = L.marker([lat, lng]).addTo(map);
-      marker.bindPopup(sector.title).openPopup();
-      map.setView([lat, lng], 12);
-
+      marker = L.marker([lat, lon]).addTo(map);
+      marker.bindPopup(zone.title).openPopup();
+      map.setView([lat, lon], 13);
     });
   </script>
 </body>

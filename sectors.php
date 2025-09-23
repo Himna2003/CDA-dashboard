@@ -26,6 +26,7 @@
 
     <div id="areaInfo" style="display:none;">
       <p><strong>Name:</strong> <span id="sectorName"></span></p>
+      <p><strong>Location:</strong><span id="sectorLocation"></span></p>
     </div>
 
     <div id="map"></div>
@@ -35,6 +36,7 @@
   <script>
     const select = document.getElementById('sectorSelect');
     const sectorName = document.getElementById('sectorName');
+    const sectorLocation = document.getElementById('sectorLocation')
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -53,25 +55,26 @@
           select.appendChild(option);
         });
       });
+        select.addEventListener('change', () => {
+      if (!select.value) {
+        areaInfo.style.display = 'none';
+        if (marker) map.removeLayer(marker);
+        return;
+      }
 
-    select.addEventListener("change", (e) => {
-      if (!e.target.value) return;
+      const sector = JSON.parse(select.value);  
 
-      const sector = JSON.parse(e.target.value);
+      sectorName.textContent = sector.name;
+      sectorLocation.textContent = `${sector.latitude || "N/A"}, ${sector.longitude || "N/A"}`;
+      areaInfo.style.display = 'block';
 
-      sectorName.textContent = sector.title;
-      areaInfo.style.display = "block";
+      const lat = parseFloat(sector.latitude) || 33.6844;  
+      const lon = parseFloat(sector.longitude) || 73.0479;
 
       if (marker) map.removeLayer(marker);
-
-      
-      let lat = 33.6844;  
-      let lng = 73.0479;
-
-      marker = L.marker([lat, lng]).addTo(map);
-      marker.bindPopup(sector.title).openPopup();
-      map.setView([lat, lng], 12);
-
+      marker = L.marker([lat, lon]).addTo(map);
+      marker.bindPopup(zone.title).openPopup();
+      map.setView([lat, lon], 13);
     });
   </script>
 </body>
