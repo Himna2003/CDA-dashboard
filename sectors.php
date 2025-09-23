@@ -79,6 +79,6 @@ select.addEventListener('change', () => {
   map.setView([lat, lon], 13);
 });
 
-  </script>
+</script>
 </body>
 </html>
