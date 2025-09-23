@@ -45,37 +45,40 @@
       maxZoom: 18
     }).addTo(map);
 
-    fetch("get_sector.php")
-      .then(res => res.json())
-      .then(data => {
-        data.forEach(row => {
-          let option = document.createElement("option");
-          option.value = JSON.stringify(row); 
-          option.textContent = row.title; 
-          select.appendChild(option);
-        });
-      });
-        select.addEventListener('change', () => {
-      if (!select.value) {
-        areaInfo.style.display = 'none';
-        if (marker) map.removeLayer(marker);
-        return;
-      }
-
-      const sector = JSON.parse(select.value);  
-
-      sectorName.textContent = sector.name;
-      sectorLocation.textContent = `${sector.latitude || "N/A"}, ${sector.longitude || "N/A"}`;
-      areaInfo.style.display = 'block';
-
-      const lat = parseFloat(sector.latitude) || 33.6844;  
-      const lon = parseFloat(sector.longitude) || 73.0479;
-
-      if (marker) map.removeLayer(marker);
-      marker = L.marker([lat, lon]).addTo(map);
-      marker.bindPopup(zone.title).openPopup();
-      map.setView([lat, lon], 13);
+   fetch("get_sector.php")
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(row => {
+      let option = document.createElement("option");
+      option.value = JSON.stringify(row);
+      option.textContent = row.name; 
+      select.appendChild(option);
     });
+  });
+
+select.addEventListener('change', () => {
+  if (!select.value) {
+    areaInfo.style.display = 'none';
+    if (marker) map.removeLayer(marker);
+    return;
+  }
+
+  const sector = JSON.parse(select.value);
+
+  sectorName.textContent = sector.name || "N/A";
+  sectorLocation.textContent = `${sector.latitude || "N/A"}, ${sector.longitude || "N/A"}`;
+  areaInfo.style.display = 'block';
+
+  const lat = parseFloat(sector.latitude) || 33.6844;
+  const lon = parseFloat(sector.longitude) || 73.0479;
+
+  if (marker) map.removeLayer(marker);
+  marker = L.marker([lat, lon]).addTo(map);
+  marker.bindPopup(sector.name).openPopup();
+
+  map.setView([lat, lon], 13);
+});
+
   </script>
 </body>
 </html>

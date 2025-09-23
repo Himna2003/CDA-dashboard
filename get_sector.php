@@ -10,7 +10,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `name`, `longitude`, `latitude` FROM `sectors_1`"; 
+$sql = "SELECT `name`, `longitude`, `latitude` FROM `sectors___sectors_csv`"; 
 $result = $conn->query($sql);
 
 $data = [];
