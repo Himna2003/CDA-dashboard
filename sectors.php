@@ -9,6 +9,8 @@
 <body>
 
   <div class="sidebar">
+      <!-- Logo -->
+  <img src="CDALOGO.png" alt="Logo" class="logo">
     <h2>Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
@@ -26,7 +28,6 @@
 
     <div id="areaInfo" style="display:none;">
       <p><strong>Name:</strong> <span id="sectorName"></span></p>
-      <p><strong>Location:</strong><span id="sectorLocation"></span></p>
     </div>
 
     <div id="map"></div>
@@ -36,7 +37,6 @@
   <script>
     const select = document.getElementById('sectorSelect');
     const sectorName = document.getElementById('sectorName');
-    const sectorLocation = document.getElementById('sectorLocation')
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -45,40 +45,36 @@
       maxZoom: 18
     }).addTo(map);
 
-   fetch("get_sector.php")
-  .then(res => res.json())
-  .then(data => {
-    data.forEach(row => {
-      let option = document.createElement("option");
-      option.value = JSON.stringify(row);
-      option.textContent = row.name; 
-      select.appendChild(option);
+    fetch("get_sector.php")
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(row => {
+          let option = document.createElement("option");
+          option.value = JSON.stringify(row); 
+          option.textContent = row.title; 
+          select.appendChild(option);
+        });
+      });
+
+    select.addEventListener("change", (e) => {
+      if (!e.target.value) return;
+
+      const sector = JSON.parse(e.target.value);
+
+      sectorName.textContent = sector.title;
+      areaInfo.style.display = "block";
+
+      if (marker) map.removeLayer(marker);
+
+      
+      let lat = 33.6844;  
+      let lng = 73.0479;
+
+      marker = L.marker([lat, lng]).addTo(map);
+      marker.bindPopup(sector.title).openPopup();
+      map.setView([lat, lng], 12);
+
     });
-  });
-
-select.addEventListener('change', () => {
-  if (!select.value) {
-    areaInfo.style.display = 'none';
-    if (marker) map.removeLayer(marker);
-    return;
-  }
-
-  const sector = JSON.parse(select.value);
-
-  sectorName.textContent = sector.name || "N/A";
-  sectorLocation.textContent = `${sector.latitude || "N/A"}, ${sector.longitude || "N/A"}`;
-  areaInfo.style.display = 'block';
-
-  const lat = parseFloat(sector.latitude) || 33.6844;
-  const lon = parseFloat(sector.longitude) || 73.0479;
-
-  if (marker) map.removeLayer(marker);
-  marker = L.marker([lat, lon]).addTo(map);
-  marker.bindPopup(sector.name).openPopup();
-
-  map.setView([lat, lon], 13);
-});
-
-</script>
+  </script>
 </body>
 </html>
