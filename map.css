@@ -11,28 +11,55 @@
       background-color: #f4f6f8;
     }
 
-    .sidebar {
-      width: 220px;
-      color: #fff;
-      background-color: darkgreen;
-      padding: 20px;
-    }
+    /* === Sidebar Styling (Dashboard Design Applied) === */
+.sidebar {
+  width: 250px;  /* keep original width */
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  color: white;
+  background-color: darkgreen;
+}
 
-    .sidebar h2 {
-      margin-bottom: 30px;
-      font-size: 22px;
-    }
+.sidebar .logo {
+  width: 100px;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    .sidebar a {
-      display: block;
-      color: #ecf0f1;
-      text-decoration: none;
-      margin-bottom: 15px;
-    }
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+  text-shadow: 2px 2px 5px black; /* permanent shadow */
+}
 
-    .sidebar a:hover {
-      text-decoration: underline;
-    }
+.sidebar a {
+  display: block;
+  color: #ecf0f1;
+  text-decoration: none;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* === Main Section with space for sidebar === */
+.main {
+  margin-left: 240px; /* adjust for sidebar */
+  padding: 20px;
+  flex: 1;
+  background: #f4f4f4;
+  display: flex;
+  flex-direction: column;
+}
+
 
         #map {
         height: 400px;
@@ -105,3 +132,19 @@
     border-radius: 5px;
     min-width: 200px; 
     }
+
+     .zones-select-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
+    }
+
+    #zonesSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-width: 200px; 
+    }
+    
