@@ -9,6 +9,8 @@
 <body>
 
   <div class="sidebar">
+      <!-- Logo -->
+  <img src="CDALOGO.png" alt="Logo" class="logo">
     <h2>Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
@@ -17,26 +19,23 @@
   </div>
 
   <div class="main">
-    <div class="zone-select-container">
-      <label for="zonesSelect">Select Zone:</label>
-      <select id="zonesSelect">
-        <option value="">-- Select --</option>
-      </select>
-    </div>
-
-    <div id="areaInfo" style="display:none;">
-      <p><strong>Name:</strong> <span id="zoneName"></span></p>
-      <p><strong>Location:</strong> <span id="zoneLocation"></span></p>
-    </div>
-
-    <div id="map" style="height:500px;"></div>
+  <div class="zones-select-container">
+    <label for="zonesSelect">Select zones:</label>
+    <select id="zonesSelect">
+      <option value="">-- Select --</option>
+    </select>
   </div>
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <div id="areaInfo">
+    <p><strong>Name:</strong> <span id="zoneName"></span></p>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const select = document.getElementById('zonesSelect');
-    const zoneName = document.getElementById('zoneName');
-    const zoneLocation = document.getElementById('zoneLocation');
+    const select = document.getElementById('sectorSelect');
+    const sectorName = document.getElementById('sectorName');
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -45,7 +44,6 @@
       maxZoom: 18
     }).addTo(map);
 
-    // Load data from PHP
     fetch("get_zone.php")
       .then(res => res.json())
       .then(data => {
@@ -57,26 +55,24 @@
         });
       });
 
-    select.addEventListener('change', () => {
-      if (!select.value) {
-        areaInfo.style.display = 'none';
-        if (marker) map.removeLayer(marker);
-        return;
-      }
+    select.addEventListener("change", (e) => {
+      if (!e.target.value) return;
 
-      const zone = JSON.parse(select.value);  
+      const sector = JSON.parse(e.target.value);
 
-      zoneName.textContent = zone.title;
-      zoneLocation.textContent = `${zone.latitude || "N/A"}, ${zone.longitude || "N/A"}`;
-      areaInfo.style.display = 'block';
-
-      const lat = parseFloat(zone.latitude) || 33.6844;  
-      const lon = parseFloat(zone.longitude) || 73.0479;
+      sectorName.textContent = sector.title;
+      areaInfo.style.display = "block";
 
       if (marker) map.removeLayer(marker);
-      marker = L.marker([lat, lon]).addTo(map);
-      marker.bindPopup(zone.title).openPopup();
-      map.setView([lat, lon], 13);
+
+      
+      let lat = 33.6844;  
+      let lng = 73.0479;
+
+      marker = L.marker([lat, lng]).addTo(map);
+      marker.bindPopup(sector.title).openPopup();
+      map.setView([lat, lng], 12);
+
     });
   </script>
 </body>
