@@ -14,9 +14,8 @@
 <body>
 
   <div class="sidebar">
-    <!-- Logo -->
     <img src="CDALOGO.png" alt="Logo" class="logo">
-    <!-- Dashboard Heading -->
+
     <h2 class="dashboard-heading">Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
@@ -53,13 +52,13 @@
       maxZoom: 18
     }).addTo(map);
 
-    // Fetch ALL rows from PHP
-    fetch('markaz.php') // this PHP returns all data
+
+    fetch('get_markaz.php') 
       .then(res => res.json())
       .then(data => {
         data.forEach(row => {
           const option = document.createElement('option');
-          option.value = JSON.stringify(row); // keep full row in value
+          option.value = JSON.stringify(row); 
           option.textContent = row.Name;
           select.appendChild(option);
         });
@@ -69,7 +68,7 @@
         alert('Could not load markaz list');
       });
 
-    // Handle selection
+    
     select.addEventListener('change', () => {
       if (!select.value) {
         areaInfo.style.display = 'none';

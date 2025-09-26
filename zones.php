@@ -5,12 +5,16 @@
   <title>Capital Development Authority</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="map.css" />
+  <style>
+    #map { height: 500px; width: 100%; }
+    .sidebar { width: 200px; float: left; }
+    .main { margin-left: 210px; padding: 10px; }
+  </style>
 </head>
 <body>
 
   <div class="sidebar">
-      <!-- Logo -->
-  <img src="CDALOGO.png" alt="Logo" class="logo">
+    <img src="CDALOGO.png" alt="Logo" class="logo">
     <h2>Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
@@ -19,23 +23,24 @@
   </div>
 
   <div class="main">
-  <div class="zones-select-container">
-    <label for="zonesSelect">Select zones:</label>
-    <select id="zonesSelect">
-      <option value="">-- Select --</option>
-    </select>
+    <div class="zones-select-container">
+      <label for="zonesSelect">Select Zone:</label>
+      <select id="zonesSelect">
+        <option value="">-- Select --</option>
+      </select>
+    </div>
+
+    <div id="areaInfo" style="display:none;">
+      <p><strong>Name:</strong> <span id="zoneName"></span></p>
+    </div>
+
+    <div id="map"></div>
   </div>
 
-  <div id="areaInfo">
-    <p><strong>Name:</strong> <span id="zoneName"></span></p>
-  </div>
-  <div id="map"></div>
-</div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const select = document.getElementById('sectorSelect');
-    const sectorName = document.getElementById('sectorName');
+    const select = document.getElementById('zonesSelect');
+    const zoneName = document.getElementById('zoneName');
     const areaInfo = document.getElementById('areaInfo');
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
@@ -58,22 +63,21 @@
     select.addEventListener("change", (e) => {
       if (!e.target.value) return;
 
-      const sector = JSON.parse(e.target.value);
+      const zone = JSON.parse(e.target.value);
 
-      sectorName.textContent = sector.title;
+      zoneName.textContent = zone.title;
       areaInfo.style.display = "block";
 
       if (marker) map.removeLayer(marker);
 
-      
-      let lat = 33.6844;  
-      let lng = 73.0479;
+      let lat = parseFloat(zone.latitude);  
+      let lng = parseFloat(zone.longitude);
 
       marker = L.marker([lat, lng]).addTo(map);
-      marker.bindPopup(sector.title).openPopup();
+      marker.bindPopup(zone.title).openPopup();
       map.setView([lat, lng], 12);
-
     });
   </script>
 </body>
 </html>
+
