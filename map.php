@@ -5,14 +5,19 @@
   <title>Capital Development Authority</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="map.css" />
+  <style>
+    #map { height: 500px; width: 100%; }
+    .sidebar { width: 200px; float: left; }
+    .main { margin-left: 210px; padding: 10px; }
+  </style>
 </head>
 <body>
 
   <div class="sidebar">
-     <!-- Logo -->
-  <img src="CDALOGO.png" alt="Logo" class="logo">
- <!-- Dashboard Heading -->
-  <h2 class="dashboard-heading">Dashboard</h2>
+    <!-- Logo -->
+    <img src="CDALOGO.png" alt="Logo" class="logo">
+    <!-- Dashboard Heading -->
+    <h2 class="dashboard-heading">Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
@@ -20,20 +25,20 @@
   </div>
 
   <div class="main">
-  <div class="markaz-select-container">
-    <label for="markazSelect">Select Markaz:</label>
-    <select id="markazSelect">
-      <option value="">-- Select --</option>
-    </select>
-  </div>
+    <div class="markaz-select-container">
+      <label for="markazSelect">Select Markaz:</label>
+      <select id="markazSelect">
+        <option value="">-- Select --</option>
+      </select>
+    </div>
 
-  <div id="areaInfo">
-    <p><strong>Name:</strong> <span id="markazName"></span></p>
-    <p><strong>Location:</strong> <span id="markazLocation"></span></p>
-  </div>
+    <div id="areaInfo" style="display:none;">
+      <p><strong>Name:</strong> <span id="markazName"></span></p>
+      <p><strong>Location:</strong> <span id="markazLocation"></span></p>
+    </div>
 
-  <div id="map"></div>
-</div>
+    <div id="map"></div>
+  </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
@@ -48,47 +53,43 @@
       maxZoom: 18
     }).addTo(map);
 
-    fetch('api.php?action=list')
+    // Fetch ALL rows from PHP
+    fetch('markaz.php') // this PHP returns all data
       .then(res => res.json())
       .then(data => {
-        data.forEach(name => {
+        data.forEach(row => {
           const option = document.createElement('option');
-          option.value = name;
-          option.textContent = name;
+          option.value = JSON.stringify(row); // keep full row in value
+          option.textContent = row.Name;
           select.appendChild(option);
         });
       })
       .catch(err => {
-        console.error('Error loading list:', err);
+        console.error('Error loading markaz list:', err);
         alert('Could not load markaz list');
       });
 
+    // Handle selection
     select.addEventListener('change', () => {
-      const name = select.value;
-      if (!name) {
+      if (!select.value) {
         areaInfo.style.display = 'none';
         if (marker) map.removeLayer(marker);
         return;
       }
 
-      fetch('api.php?action=detail&name=' + encodeURIComponent(name))
-        .then(res => res.json())
-        .then(data => {
-          markazName.textContent = data.name;
-          markazLocation.textContent = `${data.latitude}, ${data.longitude}`;
-          areaInfo.style.display = 'block';
+      const markaz = JSON.parse(select.value);
 
-          const lat = parseFloat(data.latitude);
-          const lon = parseFloat(data.longitude);
+      markazName.textContent = markaz.Name;
+      markazLocation.textContent = `${markaz.Latitude}, ${markaz.Longitude}`;
+      areaInfo.style.display = 'block';
 
-          if (marker) map.removeLayer(marker);
-          marker = L.marker([lat, lon]).addTo(map);
-          map.setView([lat, lon], 13);
-        })
-        .catch(err => {
-          console.error('Error loading details:', err);
-          alert('Could not load markaz details');
-        });
+      const lat = parseFloat(markaz.Latitude);
+      const lon = parseFloat(markaz.Longitude);
+
+      if (marker) map.removeLayer(marker);
+      marker = L.marker([lat, lon]).addTo(map);
+      marker.bindPopup(markaz.Name).openPopup();
+      map.setView([lat, lon], 13);
     });
   </script>
 </body>
