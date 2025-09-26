@@ -5,12 +5,16 @@
   <title>Capital Development Authority</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="map.css" />
+  <style>
+    #map { height: 500px; width: 100%; }
+    .sidebar { width: 200px; float: left; }
+    .main { margin-left: 210px; padding: 10px; }
+  </style>
 </head>
 <body>
 
   <div class="sidebar">
-      <!-- Logo -->
-  <img src="CDALOGO.png" alt="Logo" class="logo">
+    <img src="CDALOGO.png" alt="Logo" class="logo">
     <h2>Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
@@ -38,7 +42,7 @@
     const select = document.getElementById('sectorSelect');
     const sectorName = document.getElementById('sectorName');
     const areaInfo = document.getElementById('areaInfo');
-    const map = L.map('map').setView([33.6844, 73.0479], 7);
+    const map = L.map('map').setView([33.6844, 73.0479], 10);
     let marker;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -51,7 +55,7 @@
         data.forEach(row => {
           let option = document.createElement("option");
           option.value = JSON.stringify(row); 
-          option.textContent = row.title; 
+          option.textContent = row.name; 
           select.appendChild(option);
         });
       });
@@ -61,20 +65,19 @@
 
       const sector = JSON.parse(e.target.value);
 
-      sectorName.textContent = sector.title;
+      sectorName.textContent = sector.name;
       areaInfo.style.display = "block";
 
       if (marker) map.removeLayer(marker);
 
-      
-      let lat = 33.6844;  
-      let lng = 73.0479;
+      let lat = parseFloat(sector.latitude);
+      let lng = parseFloat(sector.longitude);
 
       marker = L.marker([lat, lng]).addTo(map);
-      marker.bindPopup(sector.title).openPopup();
-      map.setView([lat, lng], 12);
-
+      marker.bindPopup(sector.name).openPopup();
+      map.setView([lat, lng], 13);
     });
   </script>
 </body>
 </html>
+
