@@ -49,19 +49,19 @@
     <div class="cards">
       <div class="card">
         <h3>Sectors</h3>
-        <p>View and manage all sectors of Islamabad.</p>
+        <h4>30 Sectors</h4>
         <a href="sectors.php" class="btn">Explore</a>
       </div>
 
       <div class="card">
         <h3>Zones</h3>
-        <p>Check the details of different zones.</p>
+        <h4>5 Zones</h4>
         <a href="zones.php" class="btn">Explore</a>
       </div>
 
       <div class="card">
         <h3>Markaz</h3>
-        <p>Explore the markaz areas and their details.</p>
+        <h4>16 Markaz</h4>
         <a href="map.php" class="btn">Explore</a>
       </div>
     </div>
