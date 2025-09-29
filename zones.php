@@ -32,6 +32,8 @@
 
     <div id="areaInfo" style="display:none;">
       <p><strong>Name:</strong> <span id="zoneName"></span></p>
+      <p><strong>Latitude:</strong> <span id="zoneLat"></span></p>
+      <p><strong>Longitude:</strong> <span id="zoneLng"></span></p>
     </div>
 
     <div id="map"></div>
@@ -49,13 +51,14 @@
       maxZoom: 18
     }).addTo(map);
 
+
     fetch("get_zone.php")
       .then(res => res.json())
       .then(data => {
         data.forEach(row => {
           let option = document.createElement("option");
           option.value = JSON.stringify(row); 
-          option.textContent = row.title; 
+          option.textContent = row.name; // 👈 make sure your DB returns `name`
           select.appendChild(option);
         });
       });
@@ -65,19 +68,21 @@
 
       const zone = JSON.parse(e.target.value);
 
-      zoneName.textContent = zone.title;
+      // show values in info box
+      zoneName.textContent = zone.name;
+      document.getElementById("zoneLat").textContent = zone.latitude;
+      document.getElementById("zoneLng").textContent = zone.longitude;
       areaInfo.style.display = "block";
 
+      // add marker
       if (marker) map.removeLayer(marker);
-
-      let lat = parseFloat(zone.latitude);  
+      let lat = parseFloat(zone.latitude);
       let lng = parseFloat(zone.longitude);
 
       marker = L.marker([lat, lng]).addTo(map);
-      marker.bindPopup(zone.title).openPopup();
-      map.setView([lat, lng], 12);
+      marker.bindPopup(zone.name).openPopup();
+      map.setView([lat, lng], 13);
     });
   </script>
 </body>
 </html>
-

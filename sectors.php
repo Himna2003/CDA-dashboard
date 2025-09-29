@@ -32,7 +32,10 @@
 
     <div id="areaInfo" style="display:none;">
       <p><strong>Name:</strong> <span id="sectorName"></span></p>
+      <p><strong>Latitude:</strong> <span id="sectorLat"></span></p>
+      <p><strong>Longitude:</strong> <span id="sectorLng"></span></p>
     </div>
+
 
     <div id="map"></div>
   </div>
@@ -48,10 +51,15 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
     }).addTo(map);
-
+      L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:streets',
+      format: 'image/png',
+      transparent: true
+    }).addTo(map);
     fetch("get_sector.php")
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         data.forEach(row => {
           let option = document.createElement("option");
           option.value = JSON.stringify(row); 
@@ -61,22 +69,24 @@
       });
 
     select.addEventListener("change", (e) => {
-      if (!e.target.value) return;
+  if (!e.target.value) return;
 
-      const sector = JSON.parse(e.target.value);
+  const sector = JSON.parse(e.target.value);
 
-      sectorName.textContent = sector.name;
-      areaInfo.style.display = "block";
+  sectorName.textContent = sector.name;
+  document.getElementById("sectorLat").textContent = sector.latitude;
+  document.getElementById("sectorLng").textContent = sector.longitude;
+  areaInfo.style.display = "block";
 
-      if (marker) map.removeLayer(marker);
+  if (marker) map.removeLayer(marker);
+  let lat = parseFloat(sector.latitude);
+  let lng = parseFloat(sector.longitude);
 
-      let lat = parseFloat(sector.latitude);
-      let lng = parseFloat(sector.longitude);
+  marker = L.marker([lat, lng]).addTo(map);
+  marker.bindPopup(sector.name).openPopup();
+  map.setView([lat, lng], 13);
+});
 
-      marker = L.marker([lat, lng]).addTo(map);
-      marker.bindPopup(sector.name).openPopup();
-      map.setView([lat, lng], 13);
-    });
   </script>
 </body>
 </html>

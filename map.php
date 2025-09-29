@@ -33,7 +33,9 @@
 
     <div id="areaInfo" style="display:none;">
       <p><strong>Name:</strong> <span id="markazName"></span></p>
-      <p><strong>Location:</strong> <span id="markazLocation"></span></p>
+      <p><strong>Latitude:</strong> <span id="markazLatitude"></span></p>
+      <p><strong>Longitude:</strong> <span id="markazLongitude"></span></p>
+      <p><strong>Address:</strong> <span id="markazAddress"></span></p>
     </div>
 
     <div id="map"></div>
@@ -43,8 +45,11 @@
   <script>
     const select = document.getElementById('markazSelect');
     const markazName = document.getElementById('markazName');
-    const markazLocation = document.getElementById('markazLocation');
+    const markazLat = document.getElementById('markazLatitude');
+    const markazLng = document.getElementById('markazLongitude');
+    const markazAddress = document.getElementById('markazAddress');
     const areaInfo = document.getElementById('areaInfo');
+
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
 
@@ -52,23 +57,17 @@
       maxZoom: 18
     }).addTo(map);
 
-
     fetch('get_markaz.php') 
       .then(res => res.json())
       .then(data => {
         data.forEach(row => {
           const option = document.createElement('option');
           option.value = JSON.stringify(row); 
-          option.textContent = row.Name;
+          option.textContent = row.name;  
           select.appendChild(option);
         });
       })
-      .catch(err => {
-        console.error('Error loading markaz list:', err);
-        alert('Could not load markaz list');
-      });
 
-    
     select.addEventListener('change', () => {
       if (!select.value) {
         areaInfo.style.display = 'none';
@@ -78,16 +77,18 @@
 
       const markaz = JSON.parse(select.value);
 
-      markazName.textContent = markaz.Name;
-      markazLocation.textContent = `${markaz.Latitude}, ${markaz.Longitude}`;
+      markazName.textContent = markaz.name;
+      markazLat.textContent = markaz.latitude;
+      markazLng.textContent = markaz.longitude;
+      markazAddress.textContent = markaz.address; 
       areaInfo.style.display = 'block';
 
-      const lat = parseFloat(markaz.Latitude);
-      const lon = parseFloat(markaz.Longitude);
+      const lat = parseFloat(markaz.latitude);
+      const lon = parseFloat(markaz.longitude);
 
       if (marker) map.removeLayer(marker);
       marker = L.marker([lat, lon]).addTo(map);
-      marker.bindPopup(markaz.Name).openPopup();
+      marker.bindPopup(markaz.name).openPopup();
       map.setView([lat, lon], 13);
     });
   </script>
