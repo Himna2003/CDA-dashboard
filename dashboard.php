@@ -36,16 +36,14 @@
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
     <a href="map.php">Markaz</a>
+    <a href="grounds.php">Grounds</a>
   </div>
 
   <div class="main">
-    <!-- ✅ Navbar with Welcome text -->
     <div class="navbar" style="background-color: darkgreen; padding: 15px; text-align:center;">
       <h1 id="typewriter" class="typewriter"></h1>
     </div>
     
-
-    <!-- ✅ Cards Section -->
     <div class="cards">
       <div class="card">
         <h3>Sectors</h3>
@@ -70,7 +68,7 @@
   <script>
     const text = "Welcome to Capital Development Authority";
     let i = 0;
-    const speed = 200; // slower typing speed in ms
+    const speed = 200; 
 
     function typeWriter() {
       if (i < text.length) {

@@ -20,6 +20,7 @@
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
     <a href="map.php">Markaz</a>
+    <a href="grounds.php">Grounds</a>
   </div>
 
   <div class="main">

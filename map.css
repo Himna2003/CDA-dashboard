@@ -133,18 +133,19 @@
     min-width: 200px; 
     }
 
-     .zones-select-container {
+
+
+    .grounds-select-container {
     display: flex;
     align-items: center;
     gap: 10px; 
     margin-bottom: 15px;
     }
 
-    #zonesSelect {
+    #groundsSelect {
     padding: 8px 12px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     min-width: 200px; 
     }
-    
