@@ -26,8 +26,8 @@
 
   <div class="main">
     <div class="grounds-select-container">
-      <label for="groundSelect">Select Ground:</label>
-      <select id="groundSelect">
+      <label for="groundsSelect">Select Ground:</label>
+      <select id="groundsSelect">
         <option value="">-- Select --</option>
       </select>
     </div>
@@ -55,6 +55,11 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
     }).addTo(map);
+     L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:playground',
+      format: 'image/png',
+      transparent: true
+    }).addTo(map);
 
     fetch('locations.php') 
       .then(res => res.json())
@@ -65,8 +70,7 @@
           option.textContent = row.name;  
           select.appendChild(option);
         });
-      })
-
+      });
     select.addEventListener('change', () => {
       if (!select.value) {
         areaInfo.style.display = 'none';
@@ -74,7 +78,7 @@
         return;
       }
 
-      const markaz = JSON.parse(select.value);
+      const ground = JSON.parse(select.value);
 
       groundName.textContent = ground.name;
       groundLat.textContent = ground.latitude;
@@ -86,7 +90,7 @@
 
       if (marker) map.removeLayer(marker);
       marker = L.marker([lat, lon]).addTo(map);
-      marker.bindPopup(markaz.name).openPopup();
+      marker.bindPopup(ground.name).openPopup();
       map.setView([lat, lon], 13);
     });
   </script>
