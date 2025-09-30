@@ -52,15 +52,39 @@
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
     }).addTo(map);
-     L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+
+    var grounds = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
       layers: 'demo:playground',
       format: 'image/png',
+      attributes:'Playground',
       transparent: true
     }).addTo(map);
 
+    var streets = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:streets',
+      format: 'image/png',
+      attributes:'Playground',
+      transparent: true
+    }).addTo(map);
+    
+    var roads = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:Roads',
+      format: 'image/png',
+      attributes:'Playground',
+      transparent: true
+    }).addTo(map);
+
+    var baseMaps = { "OpenStreetMap": osm };
+    var overlayMaps = {
+      "Roads": roads,
+      "Streets": streets,
+      "Grounds": grounds
+    };
+
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
     fetch('locations.php') 
       .then(res => res.json())
       .then(data => {
