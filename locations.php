@@ -6,7 +6,6 @@ $user = "root";
 $pass = "";       
 $dbname = "playgrounds";  
 
-// Use the variables here
 $conn = new mysqli($host, $user, $pass, $dbname);
 
 if ($conn->connect_error) {

@@ -43,7 +43,7 @@
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const select = document.getElementById('groundSelect');
+    const select = document.getElementById('groundsSelect');
     const groundName = document.getElementById('groundName');
     const groundLat = document.getElementById('groundLatitude');
     const groundLng = document.getElementById('groundLongitude');
