@@ -110,7 +110,7 @@ fetch('get_plots.php')
     data.forEach(row => {
       const option = document.createElement('option');
       option.value = JSON.stringify(row); 
-      option.textContent = `${row.Sector} - Plot ${row.Plot}`;
+      option.textContent = `Plot ${row.Plot}`;
       select.appendChild(option);
     });
   });
