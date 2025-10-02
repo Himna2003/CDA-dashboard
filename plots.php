@@ -26,7 +26,7 @@
 
   <div class="main">
     <div class="grounds-select-container">
-      <label for="groundsSelect">Select Ground:</label>
+      <label for="groundsSelect">Select Plot:</label>
       <select id="groundsSelect">
         <option value="">-- Select --</option>
       </select>
