@@ -15,7 +15,6 @@
 
   <div class="sidebar">
     <img src="CDALOGO.png" alt="Logo" class="logo">
-
     <h2 class="dashboard-heading">Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
@@ -39,15 +38,14 @@
   <p><strong>Type:</strong> <span id="type"></span></p>
   <p><strong>Street No/Road:</strong> <span id="street"></span></p>
   <p><strong>Corner Status:</strong> <span id="corner"></span></p>
-  <p><strong>Size:</strong> <span id="size"></span></p>
+  <p><strong>Size sq_meters:</strong> <span id="size"></span></p>
   <p><strong>Latitude:</strong> <span id="lat"></span></p>
   <p><strong>Longitude:</strong> <span id="lng"></span></p>
 </div>
 
 <div id="map"></div>
   </div>
-
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
 const select = document.getElementById('groundsSelect');
 const sector = document.getElementById('sector');
