@@ -99,7 +99,7 @@ let marker;
     "Plots": plotsLayer
   };
 
-  L.control.layers(baseMaps, overlayMaps).addTo(map);
+L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 
 fetch('get_plots.php') 
