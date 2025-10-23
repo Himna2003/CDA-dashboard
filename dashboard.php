@@ -47,19 +47,19 @@
     <div class="cards">
       <div class="card">
         <h3>Sectors</h3>
-        <h4>30 Sectors</h4>
+        <h4>Explore Sectors of Islamabad</h4>
         <a href="sectors.php" class="btn">Explore</a>
       </div>
 
       <div class="card">
         <h3>Zones</h3>
-        <h4>5 Zones</h4>
+        <h4>Explore Zones of Islamabad</h4>
         <a href="zones.php" class="btn">Explore</a>
       </div>
 
       <div class="card">
         <h3>Markaz</h3>
-        <h4>16 Markaz</h4>
+        <h4>Explore Markaz of Islamabad</h4>
         <a href="map.php" class="btn">Explore</a>
       </div>
     </div>
