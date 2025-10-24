@@ -15,7 +15,7 @@
     const map = L.map('map').setView([33.6844, 73.0479], 12);
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30, attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
+    });
 
     const googleSat = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
       maxZoom: 20, attribution: '&copy; Google Satellite'
@@ -27,14 +27,25 @@
 
     const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: '&copy; Esri Satellite'
-    });
+    }).addTo(map);
     
 
 
     const plotsLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
       layers: 'demo:D-12_GCS_11032024', format: 'image/png', transparent: true
+    });
+
+    const boundaryLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:ICT_Boundary', format: 'image/png', transparent: true
     }).addTo(map);
 
+    const ZonesLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:ICT_Zones', format: 'image/png', transparent: true
+    });
+   
+    const Zone4 = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:Zone_4_Sub_Zones', format: 'image/png', transparent: true
+    });
     const baseMaps = {
       "OpenStreetMap": osm,
       "Google Satellite": googleSat,
@@ -43,7 +54,10 @@
     };
 
     const overlayMaps = {
-      "Plots": plotsLayer
+      "Boundary": boundaryLayer,
+      "Plots": plotsLayer,
+      "Zones": ZonesLayer,
+      "Zone 4 Sub Zones": Zone4
     };
 
     L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);

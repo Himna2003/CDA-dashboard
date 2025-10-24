@@ -8,8 +8,9 @@
 </head>
 <body>
 
- <div class="main">
+<div class="main">
 
+  <!-- Sidebar -->
   <div class="sidebar">
     <img src="CDALOGO.png" alt="Logo" class="logo">
     <h2 class="dashboard-heading">Dashboard</h2>
@@ -21,24 +22,33 @@
   </div>
 
   <div class="content">
+    
     <div class="search-container">
       <h3>Search Plot</h3>
-      <form id="searchForm">
-        <label>Sector:</label>
-        <input list="sectorList" id="sectorInput" placeholder="Select or type sector">
-        <datalist id="sectorList"></datalist>
+      <form id="searchForm" class="search-form">
+        <div class="form-group">
+          <label>Sector:</label>
+          <input list="sectorList" id="sectorInput" placeholder="Select or type sector">
+          <datalist id="sectorList"></datalist>
+        </div>
 
-        <label>Subsector:</label>
-        <input list="subsectorList" id="subsectorInput" placeholder="Select or type subsector">
-        <datalist id="subsectorList"></datalist>
+        <div class="form-group">
+          <label>Subsector:</label>
+          <input list="subsectorList" id="subsectorInput" placeholder="Select or type subsector">
+          <datalist id="subsectorList"></datalist>
+        </div>
 
-        <label>Street No/Road:</label>
-        <input list="streetList" id="streetInput" placeholder="Select or type street">
-        <datalist id="streetList"></datalist>
+        <div class="form-group">
+          <label>Street No/Road:</label>
+          <input list="streetList" id="streetInput" placeholder="Select or type street">
+          <datalist id="streetList"></datalist>
+        </div>
 
-        <label>Plot:</label>
-        <input list="plotList" id="plotInput" placeholder="Select or type plot">
-        <datalist id="plotList"></datalist>
+        <div class="form-group">
+          <label>Plot:</label>
+          <input list="plotList" id="plotInput" placeholder="Select or type plot">
+          <datalist id="plotList"></datalist>
+        </div>
 
         <button type="submit">Search</button>
       </form>
@@ -60,7 +70,7 @@
   </div>
 </div>
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="plots.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="plots.js"></script>
 </body>
 </html>

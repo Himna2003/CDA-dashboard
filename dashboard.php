@@ -5,28 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="dashboard.css" />
   <title>Capital Development Authority</title>
-  <style>
-    /* Optional styling for typewriter */
-    .typewriter {
-      font-size: 28px;
-      font-weight: bold;
-      border-right: 2px solid black; /* blinking cursor */
-      white-space: nowrap;
-      overflow: hidden;
-      animation: blink 0.7s infinite;
-      color: white; /* make welcome text white */
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6); /* attractive shadow */
-      text-align: center;
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-  </style>
 </head>
 <body>
   <div class="sidebar" style="background-color: darkgreen;">
-    <!-- Logo -->
     <div class="logo">
       <img src="CDALOGO.png" alt="CDA Logo">
     </div>
