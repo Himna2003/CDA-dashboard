@@ -49,19 +49,18 @@
     .sidebar a:hover {
       text-decoration: underline;
     }
-
-    /* === MAIN SECTION === */
     .main {
-      margin-left: 260px;
-      flex: 1;
-      padding: 20px;
-      background: #f4f4f4;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+    margin-left: 260px;
+    flex: 1;
+    padding: 20px;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    align-items: flex-start; 
+  }
 
-    /* === SEARCH CONTAINER === */
+
     .search-container {
       background: #fff;
       padding: 20px;
@@ -106,7 +105,6 @@
       background-color: #0b5ed7;
     }
 
-    /* === AREA INFO BOX === */
     #areaInfo {
       background: #fff;
       border: 1px solid #ccc;
@@ -126,7 +124,6 @@
       color: darkgreen;
     }
 
-    /* === MAP === */
     #map {
       flex: 1;
       height: 500px;
@@ -135,3 +132,10 @@
       border: 2px solid #ccc;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }

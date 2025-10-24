@@ -13,8 +13,6 @@
     let marker;
 
     const map = L.map('map').setView([33.6844, 73.0479], 12);
-
-    // === BASE MAPS ===
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 30, attribution: '&copy; OpenStreetMap'
     }).addTo(map);
@@ -30,18 +28,8 @@
     const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: '&copy; Esri Satellite'
     });
+    
 
-    const grounds = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
-      layers: 'demo:playground', format: 'image/png', transparent: true
-    }).addTo(map);
-
-    const streets = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
-      layers: 'demo:streets', format: 'image/png', transparent: true
-    }).addTo(map);
-
-    const roads = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
-      layers: 'demo:Roads', format: 'image/png', transparent: true
-    }).addTo(map);
 
     const plotsLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
       layers: 'demo:D-12_GCS_11032024', format: 'image/png', transparent: true
@@ -55,9 +43,6 @@
     };
 
     const overlayMaps = {
-      "Roads": roads,
-      "Streets": streets,
-      "Grounds": grounds,
       "Plots": plotsLayer
     };
 

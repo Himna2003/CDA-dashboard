@@ -8,9 +8,11 @@
 </head>
 <body>
 
+ <div class="main">
+
   <div class="sidebar">
     <img src="CDALOGO.png" alt="Logo" class="logo">
-    <h2>Dashboard</h2>
+    <h2 class="dashboard-heading">Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
@@ -18,7 +20,7 @@
     <a href="plots.php">Plots</a>
   </div>
 
-  <div class="main">
+  <div class="content">
     <div class="search-container">
       <h3>Search Plot</h3>
       <form id="searchForm">
@@ -56,6 +58,7 @@
 
     <div id="map"></div>
   </div>
+</div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="plots.js"></script>
