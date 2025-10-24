@@ -43,7 +43,7 @@
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
-  text-shadow: 2px 2px 5px black; /* permanent shadow */
+  text-shadow: 2px 2px 5px black; 
 }
 
 .sidebar a {
@@ -60,7 +60,7 @@
 }
 
 .main {
-  margin-left: 270px; /* space for sidebar */
+  margin-left: 270px; 
   padding: 20px;
 }
 

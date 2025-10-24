@@ -10,7 +10,6 @@
 
 <div class="main">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <img src="CDALOGO.png" alt="Logo" class="logo">
     <h2 class="dashboard-heading">Dashboard</h2>
@@ -65,6 +64,7 @@
       <p><strong>Latitude:</strong> <span id="lat"></span></p>
       <p><strong>Longitude:</strong> <span id="lng"></span></p>
     </div>
+
 
     <div id="map"></div>
   </div>
