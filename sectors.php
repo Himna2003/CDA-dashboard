@@ -5,11 +5,6 @@
   <title>Capital Development Authority</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="map.css" />
-  <style>
-    #map { height: 500px; width: 100%; }
-    .sidebar { width: 200px; float: left; }
-    .main { margin-left: 210px; padding: 10px; }
-  </style>
 </head>
 <body>
 
@@ -52,11 +47,27 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18
     }).addTo(map);
-      L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
-      layers: 'demo:streets',
-      format: 'image/png',
-      transparent: true
+
+    const googleSat = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 30, attribution: '&copy; Google Satellite'
+    });
+
+    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 30, attribution: '&copy; Google Hybrid'
+    });
+
+    const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; Esri Satellite'
     }).addTo(map);
+    
+    const baseMaps = {
+      "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }),
+      "Google Satellite": googleSat,
+      "Google Hybrid": googleHybrid,
+      "Esri Satellite": esriSat
+    };
+
+    L.control.layers(baseMaps).addTo(map);
     fetch("get_sector.php")
       .then(res => res.json())
       .then(data => {

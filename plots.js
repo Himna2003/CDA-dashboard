@@ -42,7 +42,14 @@
     const ZonesLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
       layers: 'demo:ICT_Zones', format: 'image/png', transparent: true, opacity: 1.0
     });
-   
+    
+    const RoadsLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:Major_Roads', format: 'image/png', transparent: true, opacity: 1.0
+    });
+
+    const RailwayLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:Railway_Line', format: 'image/png', transparent: true, opacity: 1.0
+    });
     const baseMaps = {
       "OpenStreetMap": osm,
       "Google Satellite": googleSat,
@@ -53,10 +60,30 @@
     const overlayMaps = {
       "Boundary": boundaryLayer,
       "Plots": plotsLayer,
-      "Zones": ZonesLayer
+      "Zones": ZonesLayer,
+      "Roads": RoadsLayer,
+      "Railway": RailwayLayer
     };
 
     L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+
+    
+  function setupOpacityControl(sliderId, valueId, layer) {
+  const slider = document.getElementById(sliderId);
+  const valueDisplay = document.getElementById(valueId);
+  
+  slider.addEventListener("input", () => {
+    const val = parseFloat(slider.value);
+    layer.setOpacity(val);
+    valueDisplay.textContent = val.toFixed(1);
+  });
+}
+
+setupOpacityControl("boundarySlider", "boundaryVal", boundaryLayer);
+setupOpacityControl("zonesSlider", "zonesVal", ZonesLayer);
+setupOpacityControl("roadsSlider", "roadsVal", RoadsLayer);
+setupOpacityControl("railSlider", "railVal", RailwayLayer);
+
 
     fetch('get_plots.php')
       .then(res => res.json())

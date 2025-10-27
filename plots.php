@@ -64,10 +64,28 @@
       <p><strong>Latitude:</strong> <span id="lat"></span></p>
       <p><strong>Longitude:</strong> <span id="lng"></span></p>
     </div>
+    
+    <div class="map-container">
+  
+  <div class="opacity-control">
+    <h3>Layer Transparency</h3>
 
+    <label>Boundary: <span id="boundaryVal">1.0</span></label>
+    <input type="range" id="boundarySlider" min="0" max="1" step="0.1" value="1">
 
-    <div id="map"></div>
+    <label>Zones: <span id="zonesVal">1.0</span></label>
+    <input type="range" id="zonesSlider" min="0" max="1" step="0.1" value="1">
+
+    <label>Roads: <span id="roadsVal">1.0</span></label>
+    <input type="range" id="roadsSlider" min="0" max="1" step="0.1" value="1">
+
+    <label>Railway: <span id="railVal">1.0</span></label>
+    <input type="range" id="railSlider" min="0" max="1" step="0.1" value="1">
   </div>
+
+<div id="map"></div>
+
+</div>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

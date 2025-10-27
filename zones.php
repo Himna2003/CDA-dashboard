@@ -5,11 +5,6 @@
   <title>Capital Development Authority</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="map.css" />
-  <style>
-    #map { height: 500px; width: 100%; }
-    .sidebar { width: 200px; float: left; }
-    .main { margin-left: 210px; padding: 10px; }
-  </style>
 </head>
 <body>
 
