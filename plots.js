@@ -65,24 +65,37 @@
       "Railway": RailwayLayer
     };
 
-    L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+  L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+  map.on('overlayadd overlayremove', () => attachOpacitySliders());
 
-    
-  function setupOpacityControl(sliderId, valueId, layer) {
-  const slider = document.getElementById(sliderId);
-  const valueDisplay = document.getElementById(valueId);
-  
-  slider.addEventListener("input", () => {
-    const val = parseFloat(slider.value);
-    layer.setOpacity(val);
-    valueDisplay.textContent = val.toFixed(1);
+function attachOpacitySliders() {
+  const overlayContainer = document.querySelector('.leaflet-control-layers-overlays');
+  if (!overlayContainer) return;
+  overlayContainer.querySelectorAll('label').forEach(label => {
+
+    if (label.querySelector('.opacity-slider')) return;
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.min = 0;
+    slider.max = 1;
+    slider.step = 0.1;
+    slider.value = 1;
+    slider.classList.add('opacity-slider');
+
+    slider.style.width = '100%';
+    slider.style.marginTop = '4px';
+    label.appendChild(slider);
+    const name = label.textContent.trim();
+    const layer = overlayMaps[name];
+    if (!layer) return;
+
+    slider.addEventListener('input', (e) => {
+      const opacity = parseFloat(e.target.value);
+      layer.setOpacity(opacity);
+    });
   });
 }
-
-setupOpacityControl("boundarySlider", "boundaryVal", boundaryLayer);
-setupOpacityControl("zonesSlider", "zonesVal", ZonesLayer);
-setupOpacityControl("roadsSlider", "roadsVal", RoadsLayer);
-setupOpacityControl("railSlider", "railVal", RailwayLayer);
+attachOpacitySliders();
 
 
     fetch('get_plots.php')
