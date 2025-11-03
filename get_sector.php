@@ -10,7 +10,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT `name`, `longitude`, `latitude` FROM `sectors_1`"; 
+$sql = "SELECT 
+       s.name,
+       s.latitude,
+       s.longitude,
+       p.id
+    FROM sectors_1 AS s
+    JOIN pfms_sectors AS p
+    ON s.name = p.title"; 
 $result = $conn->query($sql);
 
 $data = [];

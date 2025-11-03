@@ -7,18 +7,6 @@
   <link rel="stylesheet" href="map.css" />
 </head>
 <body>
-
-  <div class="sidebar">
-    <img src="CDALOGO.png" alt="Logo" class="logo">
-
-    <h2 class="dashboard-heading">Dashboard</h2>
-    <a href="dashboard.php">Home</a>
-    <a href="sectors.php">Sectors</a>
-    <a href="zones.php">Zones</a>
-    <a href="map.php">Markaz</a>
-    <a href="plots.php">Plots</a>
-  </div>
-
   <div class="main">
     <div class="markaz-select-container">
       <label for="markazSelect">Select Markaz:</label>

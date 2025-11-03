@@ -12,7 +12,7 @@
       <img src="CDALOGO.png" alt="CDA Logo">
     </div>
 
-    <h2>Dashboard</h2>
+    <h2>Geaspatial Data Dashboard</h2>
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
@@ -43,6 +43,10 @@
         <h4>Explore Markaz of Islamabad</h4>
         <a href="map.php" class="btn">Explore</a>
       </div>
+      <div class="card">
+        <h3>Plots</h3>
+        <h4>Explore Plots of Islamabad</h4>
+        <a href="plots.php" class="btn">Explore</a>
     </div>
   </div>
 

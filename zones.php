@@ -43,18 +43,36 @@
     const map = L.map('map').setView([33.6844, 73.0479], 7);
     let marker;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18
+    const BaseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 30
     }).addTo(map);
+    
+    const googleSat = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 30, attribution: '&copy; Google Satellite'
+    });
 
+    const googleHybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+      maxZoom: 30, attribution: '&copy; Google Hybrid'
+    });
 
+    const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom:30, attribution: '&copy; Esri Satellite'
+    });
+    
+    const baseMaps = {
+      "OpenStreetMap": BaseMap,
+      "Google Satellite": googleSat,
+      "Google Hybrid": googleHybrid,
+      "Esri Satellite": esriSat
+    };
+    L.control.layers(baseMaps).addTo(map);
     fetch("get_zone.php")
       .then(res => res.json())
       .then(data => {
         data.forEach(row => {
           let option = document.createElement("option");
           option.value = JSON.stringify(row); 
-          option.textContent = row.name; // 👈 make sure your DB returns `name`
+          option.textContent = row.name; 
           select.appendChild(option);
         });
       });
@@ -64,13 +82,10 @@
 
       const zone = JSON.parse(e.target.value);
 
-      // show values in info box
       zoneName.textContent = zone.name;
       document.getElementById("zoneLat").textContent = zone.latitude;
       document.getElementById("zoneLng").textContent = zone.longitude;
       areaInfo.style.display = "block";
-
-      // add marker
       if (marker) map.removeLayer(marker);
       let lat = parseFloat(zone.latitude);
       let lng = parseFloat(zone.longitude);

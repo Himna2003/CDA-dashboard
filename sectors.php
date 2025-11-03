@@ -7,18 +7,7 @@
   <link rel="stylesheet" href="map.css" />
 </head>
 <body>
-
-  <div class="sidebar">
-    <img src="CDALOGO.png" alt="Logo" class="logo">
-    <h2>Dashboard</h2>
-    <a href="dashboard.php">Home</a>
-    <a href="sectors.php">Sectors</a>
-    <a href="zones.php">Zones</a>
-    <a href="map.php">Markaz</a>
-    <a href="plots.php">Plots</a>
-  </div>
-
-  <div class="main">
+ <div class="main">
     <div class="sector-select-container">
       <label for="sectorSelect">Select Sector:</label>
       <select id="sectorSelect">
@@ -27,6 +16,7 @@
     </div>
 
     <div id="areaInfo" style="display:none;">
+      <p><strong>ID</strong><span id="id"></span></p>
       <p><strong>Name:</strong> <span id="sectorName"></span></p>
       <p><strong>Latitude:</strong> <span id="sectorLat"></span></p>
       <p><strong>Longitude:</strong> <span id="sectorLng"></span></p>
@@ -84,7 +74,8 @@
   if (!e.target.value) return;
 
   const sector = JSON.parse(e.target.value);
-
+  
+  document.getElementById("id").textContent = sector.id;
   sectorName.textContent = sector.name;
   document.getElementById("sectorLat").textContent = sector.latitude;
   document.getElementById("sectorLng").textContent = sector.longitude;
@@ -99,7 +90,7 @@
   map.setView([lat, lng], 13);
 });
 
-  </script>
+</script>
 </body>
 </html>
 

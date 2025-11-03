@@ -50,6 +50,12 @@
     const RailwayLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
       layers: 'demo:Railway_Line', format: 'image/png', transparent: true, opacity: 1.0
     });
+
+    const WaterBodiesLayer = L.tileLayer.wms("http://localhost:8080/geoserver/demo/wms", {
+      layers: 'demo:Water_Bodies', format: 'image/png', transparent: true, opacity: 1.0
+    });
+
+
     const baseMaps = {
       "OpenStreetMap": osm,
       "Google Satellite": googleSat,
@@ -58,11 +64,12 @@
     };
 
     const overlayMaps = {
-      "Boundary": boundaryLayer,
+      "ICT Boundary": boundaryLayer,
       "Plots": plotsLayer,
       "Zones": ZonesLayer,
       "Roads": RoadsLayer,
-      "Railway": RailwayLayer
+      "Railway": RailwayLayer,
+      "Water Bodies": WaterBodiesLayer
     };
 
   L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
@@ -96,6 +103,62 @@ function attachOpacitySliders() {
   });
 }
 attachOpacitySliders();
+ let identifyActive = false;
+    document.getElementById('identifyBtn').onclick = () => {
+      identifyActive = !identifyActive;
+      alert(identifyActive ? "🧾 Identify tool enabled — click on map" : "Identify tool disabled");
+    };
+
+    map.on('click', function(e) {
+      if (identifyActive) {
+        L.popup()
+          .setLatLng(e.latlng)
+          .setContent(`<b>Coordinates:</b><br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`)
+          .openOn(map);
+      }
+    });
+
+    let measureActive = false;
+    let startPoint = null;
+    let measureLine = null;
+
+    document.getElementById('measureBtn').onclick = () => {
+      measureActive = !measureActive;
+      alert(measureActive ? "📏 Measure tool enabled — click two points" : "Measure tool disabled");
+      if (!measureActive && measureLine) {
+        map.removeLayer(measureLine);
+        measureLine = null;
+      }
+    };
+
+    map.on('click', function(e) {
+      if (measureActive) {
+        if (!startPoint) {
+          startPoint = e.latlng;
+          L.marker(startPoint).addTo(map);
+        } else {
+          const endPoint = e.latlng;
+          const distance = map.distance(startPoint, endPoint) / 1000; // km
+          measureLine = L.polyline([startPoint, endPoint], { color: 'red' }).addTo(map);
+          L.popup()
+            .setLatLng(endPoint)
+            .setContent(`<b>Distance:</b> ${distance.toFixed(2)} km`)
+            .openOn(map);
+          startPoint = null;
+        }
+      }
+    });
+    
+        document.getElementById('downloadBtn').onclick = () => {
+      alert("🖼 Generating map image... please wait a few seconds.");
+
+      leafletImage(map, function(err, canvas) {
+        const img = document.createElement('a');
+        img.href = canvas.toDataURL();
+        img.download = 'map_snapshot.png';
+        img.click();
+      });
+    };
 
 
     fetch('get_plots.php')

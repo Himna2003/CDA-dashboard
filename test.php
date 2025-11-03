@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Capital Development Authority</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="map.css" />
   <style>
     #map { height: 500px; width: 100%; }
     .sidebar { width: 200px; float: left; }
@@ -12,16 +11,6 @@
   </style>
 </head>
 <body>
-
-  <div class="sidebar">
-    <img src="CDALOGO.png" alt="Logo" class="logo">
-    <h2 class="dashboard-heading">Dashboard</h2>
-    <a href="dashboard.php">Home</a>
-    <a href="sectors.php">Sectors</a>
-    <a href="zones.php">Zones</a>
-    <a href="map.php">Markaz</a>
-    <a href="plots.php">Plots</a>
-  </div>
 
   <div class="main">
     <div class="grounds-select-container">
@@ -31,99 +20,99 @@
       </select>
     </div>
 
-<div id="areaInfo" style="display:none;">
-  <p><strong>Sector:</strong> <span id="sector"></span></p>
-  <p><strong>Subsector:</strong> <span id="subsector"></span></p>
-  <p><strong>Plot:</strong> <span id="plot"></span></p>
-  <p><strong>Type:</strong> <span id="type"></span></p>
-  <p><strong>Street No/Road:</strong> <span id="street"></span></p>
-  <p><strong>Corner Status:</strong> <span id="corner"></span></p>
-  <p><strong>Size sq_meters:</strong> <span id="size"></span></p>
-  <p><strong>Latitude:</strong> <span id="lat"></span></p>
-  <p><strong>Longitude:</strong> <span id="lng"></span></p>
-</div>
+    <div id="areaInfo" style="display:none;">
+      <p><strong>Sector:</strong> <span id="sector"></span></p>
+      <p><strong>Subsector:</strong> <span id="subsector"></span></p>
+      <p><strong>Plot:</strong> <span id="plot"></span></p>
+      <p><strong>Type:</strong> <span id="type"></span></p>
+      <p><strong>Street No/Road:</strong> <span id="street"></span></p>
+      <p><strong>Corner Status:</strong> <span id="corner"></span></p>
+      <p><strong>Size:</strong> <span id="size"></span></p>
+      <p><strong>Latitude:</strong> <span id="lat"></span></p>
+      <p><strong>Longitude:</strong> <span id="lng"></span></p>
+      <p><strong>Length:</strong> <span id="length"></span></p>
+      <p><strong>Width:</strong> <span id="width"></span></p>
+    </div>
 
-<div id="map"></div>
+    <div id="map"></div>
   </div>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script>
-const select = document.getElementById('groundsSelect');
-const sector = document.getElementById('sector');
-const subsector = document.getElementById('subsector');
-const plot = document.getElementById('plot');
-const type = document.getElementById('type');
-const street = document.getElementById('street');
-const corner = document.getElementById('corner');
-const size = document.getElementById('size');
-const latSpan = document.getElementById('lat');
-const lngSpan = document.getElementById('lng');
-const areaInfo = document.getElementById('areaInfo');
 
-const map = L.map('map').setView([33.6844, 73.0479], 12);
-let marker;
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const select = document.getElementById('groundsSelect');
+    const sector = document.getElementById('sector');
+    const subsector = document.getElementById('subsector');
+    const plot = document.getElementById('plot');
+    const type = document.getElementById('type');
+    const street = document.getElementById('street');
+    const corner = document.getElementById('corner');
+    const size = document.getElementById('size');
+    const latSpan = document.getElementById('lat');
+    const lngSpan = document.getElementById('lng');
+    const length = document.getElementById('length');
+    const width = document.getElementById('width');
+    const areaInfo = document.getElementById('areaInfo');
 
-  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 30,
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+    const map = L.map('map').setView([33.6844, 73.0479], 12);
+    let marker;
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-let geojsonLayer;
-    fetch('plots.json')
+    fetch('get_test.php')
       .then(res => res.json())
       .then(data => {
-        geojsonLayer = L.geoJSON(data, {
-          style: { color: 'grey', weight: 1 },
-          onEachFeature: (feature, layer) => {
-            if (feature.properties && feature.properties.Plot) {
-              layer.bindPopup(`Plot: ${feature.properties.Plot}`);
-            }
-          }
-        }).addTo(map);
-      });
+        console.log("Fetched data:", data); // ✅ debug output
 
+        if (!data || data.length === 0) {
+          console.error("No data received");
+          return;
+        }
 
+        data.forEach(row => {
+          const option = document.createElement('option');
+          option.value = JSON.stringify(row);
+          option.textContent = `Plot ${row.Plot} (${row.Sector})`;
+          select.appendChild(option);
+        });
+      })
+      .catch(err => console.error("Fetch error:", err));
 
-fetch('get_plots.php') 
-  .then(res => res.json())
-  .then(data => {
-    data.forEach(row => {
-      const option = document.createElement('option');
-      option.value = JSON.stringify(row); 
-      option.textContent = `Plot ${row.Plot}`;
-      select.appendChild(option);
+    select.addEventListener('change', () => {
+      if (!select.value) {
+        areaInfo.style.display = 'none';
+        if (marker) map.removeLayer(marker);
+        return;
+      }
+
+      const ground = JSON.parse(select.value);
+      console.log("Selected:", ground); // ✅ debug
+
+      sector.textContent = ground.Sector;
+      subsector.textContent = ground.Subsector;
+      plot.textContent = ground.Plot;
+      type.textContent = ground.Type;
+      street.textContent = ground.Street_Road; // ✅ fixed key
+      corner.textContent = ground.Corner_status;
+      size.textContent = ground.Size;
+      latSpan.textContent = ground.Latitude;
+      lngSpan.textContent = ground.Longitude;
+      length.textContent = ground.length;
+      width.textContent = ground.width;
+
+      areaInfo.style.display = 'block';
+
+      const lat = parseFloat(ground.Latitude);
+      const lon = parseFloat(ground.Longitude);
+
+      if (!isNaN(lat) && !isNaN(lon)) {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker([lat, lon]).addTo(map);
+        marker.bindPopup(`Plot ${ground.Plot}`).openPopup();
+        map.setView([lat, lon], 15);
+      }
     });
-  });
 
-select.addEventListener('change', () => {
-  if (!select.value) {
-    areaInfo.style.display = 'none';
-    if (marker) map.removeLayer(marker);
-    return;
-  }
-
-  const ground = JSON.parse(select.value);
-  sector.textContent = ground.Sector;
-  subsector.textContent = ground.Subsector;
-  plot.textContent = ground.Plot;
-  type.textContent = ground.Type;
-  street.textContent = ground["Street_No/Road"];
-  corner.textContent = ground.Corner_status;
-  size.textContent = ground.Size;
-  latSpan.textContent = ground.Latitude;
-  lngSpan.textContent = ground.Longitude;
-
-  areaInfo.style.display = 'block';
-
-  const lat = parseFloat(ground.Latitude);
-  const lon = parseFloat(ground.Longitude);
-
-  if (!isNaN(lat) && !isNaN(lon)) {
-    if (marker) map.removeLayer(marker);
-    marker = L.marker([lat, lon]).addTo(map);
-    marker.bindPopup(ground.Plot).openPopup();
-    map.setView([lat, lon], 15);
-  }
-});
-</script>
+  </script>
 </body>
 </html>
