@@ -16,7 +16,6 @@
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
-    <a href="map.php">Markaz</a>
     <a href="plots.php">Plots</a>
   </div>
 
@@ -36,12 +35,6 @@
         <h3>Zones</h3>
         <h4>Explore Zones of Islamabad</h4>
         <a href="zones.php" class="btn">Explore</a>
-      </div>
-
-      <div class="card">
-        <h3>Markaz</h3>
-        <h4>Explore Markaz of Islamabad</h4>
-        <a href="map.php" class="btn">Explore</a>
       </div>
       <div class="card">
         <h3>Plots</h3>

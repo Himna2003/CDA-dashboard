@@ -14,7 +14,6 @@
     <a href="dashboard.php">Home</a>
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
-    <a href="map.php">Markaz</a>
     <a href="plots.php">Plots</a>
   </div>
 

@@ -15,7 +15,7 @@ $sql = "SELECT
        s.latitude,
        s.longitude,
        p.id
-    FROM sectors_1 AS s
+    FROM sectors_2 AS s
     JOIN pfms_sectors AS p
     ON s.name = p.title"; 
 $result = $conn->query($sql);

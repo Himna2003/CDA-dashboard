@@ -59,11 +59,10 @@
   </div>
   <div id="map"></div>
 </div>
-
-  </div>
+</div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
   <script src="plots.js"></script>
 </body>
 </html>

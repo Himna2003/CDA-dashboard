@@ -103,10 +103,9 @@ function attachOpacitySliders() {
   });
 }
 attachOpacitySliders();
- let identifyActive = false;
+let identifyActive = false;
     document.getElementById('identifyBtn').onclick = () => {
       identifyActive = !identifyActive;
-      alert(identifyActive ? "🧾 Identify tool enabled — click on map" : "Identify tool disabled");
     };
 
     map.on('click', function(e) {
@@ -119,46 +118,67 @@ attachOpacitySliders();
     });
 
     let measureActive = false;
-    let startPoint = null;
-    let measureLine = null;
+    let measurePoints = [];
+    let measureLine;
 
     document.getElementById('measureBtn').onclick = () => {
       measureActive = !measureActive;
-      alert(measureActive ? "📏 Measure tool enabled — click two points" : "Measure tool disabled");
-      if (!measureActive && measureLine) {
-        map.removeLayer(measureLine);
-        measureLine = null;
+      identifyActive = false; 
+
+      if (measureActive) {
+        measurePoints = [];
+        if (measureLine) map.removeLayer(measureLine);
+      } else {
+        alert("Measurement mode disabled.");
+        if (measureLine) map.removeLayer(measureLine);
       }
     };
-
-    map.on('click', function(e) {
+    map.on('click', function (e) {
+      if (identifyActive) {
+        L.popup()
+          .setLatLng(e.latlng)
+          .setContent(
+            `<b>Coordinates:</b><br>${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`
+          )
+          .openOn(map);
+      }
       if (measureActive) {
-        if (!startPoint) {
-          startPoint = e.latlng;
-          L.marker(startPoint).addTo(map);
-        } else {
-          const endPoint = e.latlng;
-          const distance = map.distance(startPoint, endPoint) / 1000; // km
-          measureLine = L.polyline([startPoint, endPoint], { color: 'red' }).addTo(map);
+        measurePoints.push(e.latlng);
+        L.marker(e.latlng).addTo(map);
+
+        if (measurePoints.length > 1) {
+          if (measureLine) map.removeLayer(measureLine);
+          measureLine = L.polyline(measurePoints, { color: "red" }).addTo(map);
+
+          let totalDistance = 0;
+          for (let i = 1; i < measurePoints.length; i++) {
+            totalDistance += map.distance(measurePoints[i - 1], measurePoints[i]);
+          }
+
           L.popup()
-            .setLatLng(endPoint)
-            .setContent(`<b>Distance:</b> ${distance.toFixed(2)} km`)
+            .setLatLng(e.latlng)
+            .setContent(`<b>Total Distance:</b> ${(totalDistance / 1000).toFixed(2)} km`)
             .openOn(map);
-          startPoint = null;
         }
       }
     });
-    
-        document.getElementById('downloadBtn').onclick = () => {
-      alert("🖼 Generating map image... please wait a few seconds.");
+    map.on('dblclick', function () {
+      if (measureActive) {
+        measureActive = false;
+        alert("Measurement completed!");
+      }
+    });
 
-      leafletImage(map, function(err, canvas) {
-        const img = document.createElement('a');
-        img.href = canvas.toDataURL();
-        img.download = 'map_snapshot.png';
-        img.click();
-      });
-    };
+    
+document.getElementById('downloadBtn').onclick = () => {
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'map_snapshot.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
 
     fetch('get_plots.php')

@@ -7,6 +7,14 @@
   <link rel="stylesheet" href="map.css" />
 </head>
 <body>
+  <div class="sidebar">
+    <img src="CDALOGO.png" alt="Logo" class="logo">
+    <h2>Dashboard</h2>
+    <a href="dashboard.php">Home</a>
+    <a href="sectors.php">Sectors</a>
+    <a href="zones.php">Zones</a>
+    <a href="plots.php">Plots</a>
+  </div>
  <div class="main">
     <div class="sector-select-container">
       <label for="sectorSelect">Select Sector:</label>
@@ -22,8 +30,7 @@
       <p><strong>Longitude:</strong> <span id="sectorLng"></span></p>
     </div>
 
-
-    <div id="map"></div>
+   <div id="map"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
