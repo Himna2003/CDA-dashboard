@@ -1,136 +1,79 @@
-<?php
-session_start();
-include "users_db";
-$error = "";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = trim($_POST['username']); 
-    $password = trim($_POST['password']);
-
-    // --- check in users table ---
-    $sql = "SELECT * FROM users WHERE (email='$username' OR name='$username') AND password='$password'";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION['username'] = $row['name'];
-        $_SESSION['role'] = 'user';
-        header("Location: user_dashboard.php");
-        exit();
-    }
-
-    // --- check in admins table ---
-    $sql = "SELECT * FROM admins WHERE username='$username' AND password='$password'";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) == 1) {
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION['username'] = $row['username'];
-        $_SESSION['role'] = 'admin';
-        header("Location: admin_dashboard.php");
-        exit();
-    }
-
-    // if nothing matches
-    $error = "Invalid username or password!";
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CDA Login</title>
   <style>
     body {
-        font-family: Arial, sans-serif;
-        background: url('Faisal Masjid, Islamabad.jpg') no-repeat center center fixed;
-        background-size: cover;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    .container {
-        background: rgba(255, 255, 255, 0.95); /* slightly transparent */
-        padding: 30px;
-        width: 380px;
-        border-radius: 12px;
-        box-shadow: 0px 6px 15px rgba(0,0,0,0.1);
-        text-align: center;
-        position: relative;
+    .login-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
     }
-    .logo {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        width: 60px;
-        height: auto;
+    .login-container img {
+      width: 100px;
+      margin-bottom: 20px;
     }
-    h2 {
-        color: #67C090;
-        margin-top: 0;
-        margin-bottom: 25px;
-    }
-    input {
-        width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 14px;
-    }
-    input:focus {
-        outline: none;
-        border: 1px solid #67C090;
+    input[type="text"], input[type="password"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
-        width: 100%;
-        background: #67C090;
-        color: white;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        margin-top: 10px;
+      background-color: darkgreen;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
     button:hover {
-        background: #56a87a;
+      background-color: green;
     }
-    p {
-        margin-top: 15px;
-        font-size: 14px;
-    }
-    p a {
-        color: #67C090;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    .error {
-        color: red;
-        font-size: 13px;
-        margin-bottom: 10px;
-    }
-</style>
-
+  </style>
 </head>
 <body>
-  <div class="container">
-    <img src="cda.webp" alt="CDA Logo" class="logo">
-    <h2>Welcome to CDA</h2>
-
-    <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
-
-    <form method="POST" autocomplete="off">
-      <input type="text" name="username" placeholder="Email or Name" required><br>
+  <div class="login-container">
+    <img src="CDALOGO.png" alt="CDA Logo">
+    <h2>Login to Dashboard</h2>
+    <form action="login.php" method="POST">
+      <input type="text" name="username" placeholder="Username" required><br>
       <input type="password" name="password" placeholder="Password" required><br>
       <button type="submit">Login</button>
     </form>
 
-    <p>New user? <a href="register.php">Register here</a></p>
+    <?php
+    session_start();
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $username = $_POST['username'];
+      $password = $_POST['password'];
+
+      // 🔒 Replace with database check if needed
+      $valid_user = "admin";
+      $valid_pass = "12345";
+
+      if ($username === $valid_user && $password === $valid_pass) {
+        $_SESSION['user'] = $username;
+        header("Location: dashboard.php");
+        exit();
+      } else {
+        echo "<p style='color:red;'>Invalid username or password</p>";
+      }
+    }
+    ?>
   </div>
 </body>
 </html>
