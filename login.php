@@ -60,8 +60,6 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $username = $_POST['username'];
       $password = $_POST['password'];
-
-      // 🔒 Replace with database check if needed
       $valid_user = "admin";
       $valid_pass = "12345";
 

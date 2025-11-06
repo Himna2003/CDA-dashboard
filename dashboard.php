@@ -24,6 +24,7 @@ if (!isset($_SESSION['user'])) {
     <a href="sectors.php">Sectors</a>
     <a href="zones.php">Zones</a>
     <a href="plots.php">Plots</a>
+    <a href="logout.php">Logout</a>
   </div>
 
   <div class="main">
